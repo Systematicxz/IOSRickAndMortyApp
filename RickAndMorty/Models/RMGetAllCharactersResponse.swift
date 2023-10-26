@@ -8,13 +8,13 @@
 import Foundation
 
 struct RMGetAllCharactersResponse: Codable {
-    struct info: Codable {
+    struct Info: Codable {
         let count : Int
         let pages: Int
         let next: String?
         let prev: String?
     }
-    let info: info
+    let info: Info
     let results: [RMCharacter]
     
 }
