@@ -9,7 +9,7 @@ import UIKit
 
 protocol RMCharacterListViewDelegate: AnyObject {
     func rmCharacterListView(
-        _ characterListView : RMCharacterListView,
+        _ characterListView: RMCharacterListView,
     didSelectCharacter character: RMCharacter
     )
 }
@@ -52,17 +52,17 @@ final class RMCharacterListView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView, spinner)
-        addConstraint()
+        addConstraints()
         spinner.startAnimating()
         viewModel.delegate = self
-        viewModel.fetchCaracters()
+        viewModel.fetchCharacters()
         setUpCollectionView()
     }
-    required init? (coder: NSCoder) {
-        fatalError("Unsopported")
+    required init?(coder: NSCoder) {
+        fatalError("Unsupported")
     }
     
-    private func addConstraint() {
+    private func addConstraints() {
         NSLayoutConstraint.activate([
             spinner.widthAnchor.constraint(equalToConstant: 100),
             spinner.heightAnchor.constraint(equalToConstant: 100),
@@ -92,7 +92,12 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
         collectionView.isHidden = false
         collectionView.reloadData()
         UIView.animate(withDuration: 0.4) {
-                self.collectionView.alpha = 1
-            }
+            self.collectionView.alpha = 1
+        }
+    }
+    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: newIndexPaths)
+        }
     }
 }

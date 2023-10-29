@@ -21,7 +21,7 @@ final class RMService {
     //Send RM API call
     // -Parameters:
     // -request: Request instance
-    // type: The type of obj to expect get back 
+    // type: The type of obj to expect get back
     // completion; Callback with data or error
     public func execute<T: Codable>(
         _ request: RMRequest,
