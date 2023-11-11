@@ -25,7 +25,7 @@ final class RMLocationView: UIView {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.alpha = 0
         table.isHidden = true
-        table.register(UITableViewCell.self,
+        table.register(RMLocationTableViewCell.self,
                        forCellReuseIdentifier: RMLocationTableViewCell.cellIdentifier)
         return table
     }()
