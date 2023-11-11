@@ -50,7 +50,7 @@ class RMLocationDetailViewController: UIViewController, RMLocationDetailViewView
     }
     @objc
     private func didTapShare() {
-        
+
     }
     
     //MARK: - View Delegate
