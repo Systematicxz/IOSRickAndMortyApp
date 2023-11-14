@@ -47,7 +47,7 @@ final class RMLocationViewViewModel {
             .listLocationsRequest,
             expecting: RMGetAllLocationsResponse.self
         ) {  [weak self] result in
-            switch result {
+            switch result{
             case .success(let model):
                 self?.apiInfo = model.info
                 self?.locations = model.results
