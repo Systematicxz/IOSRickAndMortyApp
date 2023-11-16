@@ -14,6 +14,8 @@ final class RMSearchViewViewModel {
     
     private var optionMapUpdateblock: (((RMSearchInputViewViewModel.DynamicOption, String)) -> Void)?
     
+    private var searchResultHandler: (() -> Void)?
+    
     // MARK: - Init
     init(config: RMSearchViewController.Config) {
         self.config = config
@@ -21,8 +23,40 @@ final class RMSearchViewViewModel {
     
     // MARK: - Public
     
+    public func registerSearchResultHandler(_ blocl: @escaping () -> Void) {
+        self.searchResultHandler = blocl
+    }
+    
     public func executeSearch() {
+        searchText = "Rick"
         
+        
+        var queryParams: [URLQueryItem] = [
+            URLQueryItem(name: "name", value: searchText)
+        
+        ]
+                
+        // Add options
+        queryParams.append(contentsOf: optionMap.enumerated().compactMap({_, element in
+            let key: RMSearchInputViewViewModel.DynamicOption = element.key
+            let value: String = element.value
+            return URLQueryItem(name: key.querryArgument, value: value)
+        }))
+        
+        // Create req
+        let request = RMRequest(
+            endpoint: config.type.endpoint,
+            queryParameters: queryParams
+        )
+        RMService.shared.execute(request, expecting: RMGetAllEpisodesResponse.self) {
+            result in
+            switch result {
+            case .success(let model):
+                print("Search results found: \(model.results.count)")
+            case .failure:
+                break
+            }
+        }
     }
     
     public func set(querry text: String) {
