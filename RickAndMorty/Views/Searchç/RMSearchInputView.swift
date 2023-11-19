@@ -92,7 +92,7 @@ final class RMSearchInputView: UIView {
     
     private func createButton(with option: RMSearchInputViewViewModel.DynamicOption, tag: Int) -> UIButton {
         let button = UIButton()
-        
+
         button.setAttributedTitle(
             NSAttributedString(
                 string: option.rawValue,
