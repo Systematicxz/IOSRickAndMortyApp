@@ -8,7 +8,8 @@
 import UIKit
 
 protocol RMLocationViewDelegate: AnyObject {
-    func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation)
+    func rmLocationView(_ locationView: RMLocationView,
+                        didSelect location: RMLocation)
 }
 
 final class RMLocationView: UIView {
@@ -23,6 +24,14 @@ final class RMLocationView: UIView {
             tableView.reloadData()
             UIView.animate(withDuration: 0.3) {
                 self.tableView.alpha = 1
+            }
+            viewModel?.registerDidFinishPaginationBlock { [weak self] in
+                DispatchQueue.main.async {
+                    // disable loading indicator
+                    self?.tableView.tableFooterView = nil
+                    // Reload data
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -54,6 +63,7 @@ final class RMLocationView: UIView {
         spinner.startAnimating()
         addConstraints()
         configureTable()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -136,10 +146,6 @@ extension RMLocationView: UIScrollViewDelegate {
                     self?.showLoadingIndicator()
                 }
                 viewModel.fetchAdditionalLocations()
-                DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {
-                    print("Refreshing table rows")
-                    self?.tableView.reloadData()
-                })
             }
             t.invalidate()
         }
