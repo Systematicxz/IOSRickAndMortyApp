@@ -84,14 +84,13 @@ final class RMCharacterListViewViewModel: NSObject {
                 let info = responseModel.info
                 strongSelf.apiInfo = info
                 
-                
                 let originalCount = strongSelf.characters.count
                 let newCount = moreResults.count
                 let total = originalCount+newCount
                 let startingIndex = total - newCount
                 let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap({
                 return IndexPath(row: $0, section: 0)
-                    })
+                })
 
                 strongSelf.characters.append(contentsOf: moreResults)
                 print(String(strongSelf.characters.count))
